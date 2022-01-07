@@ -73,6 +73,10 @@ def main():
     # Tracked listened count
     count = get_track_count(str(values[0]), str(values[1]))
 
+    # Pop-up window to display results
+    gui.popup('You have listened to', values[0], count, 'times')
+
+
 
 if __name__ == "__main__":
     main()
