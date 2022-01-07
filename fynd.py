@@ -8,7 +8,6 @@ import PySimpleGUI as gui
 def get_track_count(track_name, input_file):
 
     search_track_name = re.compile(r'(?<=trackName. : .)[^,\"]*')  
-
     track_count = 0
 
     with open(input_file, encoding='cp850') as stream_history_f1:
@@ -27,34 +26,53 @@ def get_track_count(track_name, input_file):
 
     return track_count
 
+def new_layout():
+    return [[gui.Input(), gui.FileBrowse()]]
+
 def main():
 
     # Theme for the pop-up window
     gui.theme('GreenMono')
 
+    # Layout to ask for file input
+    column_layout = [
+                      [gui.Input(), gui.FileBrowse()]
+                    ]
+
     # Buttons and text within the window
     layout = [ 
                [gui.Text('Track Name:')],
                [gui.InputText()],
-               [gui.Text('Select File: ')],
-               [gui.Input(), gui.FileBrowse()],
+               [gui.Text('Select File(s): ')],
+               [gui.Column(column_layout, key='column'), gui.Button('Add')],
                [gui.Button('Done'), gui.Button('Cancel')]
              ]
     
-    # Title of the window
-    window = gui.Window('Spotify Fynd', layout)
 
+    
+    # Title of the window
+    window = gui.Window('SpotiFynd', layout)
+
+    # Start window
     while True:
         event, values = window.read()
 
-        if event == gui.WIN_CLOSED or event == 'Done' or event == 'Cancel':
+        # Close window if 'X' or 'Done' or 'Cancel' are clicked
+        if event == gui.WIN_CLOSED or event == 'Cancel' or event == 'Done':
             break
 
-        print('Track name: ', values[0])
-        print('Path to file: ', values[1])
+        # If 'Add' button is pressed add more file inputs
+        elif event == 'Add':
+            window.extend_layout(window['column'],new_layout())
+
+        #print('Track name: ', values[0])
+        #print('Path to file: ', values[1])
 
     window.close()
-           
+
+    # Tracked listened count
+    count = get_track_count(str(values[0]), str(values[1]))
+
 
 if __name__ == "__main__":
     main()
