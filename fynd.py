@@ -26,6 +26,7 @@ def get_track_count(track_name, input_file):
 
     return track_count
 
+# Function to add new user input boxes if 'Add' is pressed
 def new_layout():
     return [[gui.Input(), gui.FileBrowse()]]
 
@@ -47,9 +48,7 @@ def main():
                [gui.Column(column_layout, key='column'), gui.Button('Add')],
                [gui.Button('Done'), gui.Button('Cancel')]
              ]
-    
 
-    
     # Title of the window
     window = gui.Window('SpotiFynd', layout)
 
@@ -64,9 +63,6 @@ def main():
         # If 'Add' button is pressed add more file inputs
         elif event == 'Add':
             window.extend_layout(window['column'],new_layout())
-
-        #print('Track name: ', values[0])
-        #print('Path to file: ', values[1])
 
     window.close()
 
