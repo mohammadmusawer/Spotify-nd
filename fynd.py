@@ -74,7 +74,7 @@ def main():
     count = get_track_count(str(values[0]), str(values[1]))
 
     # Pop-up window to display results
-    gui.popup('You have listened to', values[0], count, 'times')
+    gui.popup_no_buttons('\nYou have listened to '+ values[0] + ' ' + str(count) + ' times\n', location = (500, 500), title = 'Displaying Results', no_titlebar= False)
 
 
 
